@@ -1,0 +1,65 @@
+GET http://localhost:3000/factory/ 
+
+###
+
+
+DELETE http://localhost:3000/factory/factory_1
+
+###
+
+POST http://localhost:3000/factory/
+Content-Type: application/json
+
+{
+    "factoryId": "factory_1",
+    "factoryAddress": "sdfghgy6h23456hbhbvfre4"
+}
+
+###
+
+GET http://localhost:3000/factory/factory_1
+
+
+
+###
+
+PATCH http://localhost:3000/factory/factory_2
+Content-Type: application/json
+
+{
+    "factoryId": "factory_1",
+    "factoryAddress": "frsvczse23435g"
+}
+
+//user api 
+###
+
+GET http://localhost:3000/user/ 
+
+###
+
+POST http://localhost:3000/user/create
+Content-Type: application/json
+
+{
+    "userId": "user_1",
+    "userAddress": "wertyuiolkjhgfdzxcvbnm"
+}
+
+###
+
+DELETE http://localhost:3000/user/user_1
+
+###
+
+#token api
+
+GET http://localhost:3000/token/ 
+###
+
+
+DELETE http://localhost:3000/token/token_1
+
+###
+
+GET http://localhost:3000/token/getTokenId/token_1
