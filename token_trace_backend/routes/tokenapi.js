@@ -33,7 +33,7 @@ router.get('/:id', getToken, (req, res) => {
 
 //get token id
 router.get('/getTokenId/:id', getToken, (req, res) => {
-    res.status(200).json({id:res.token.tokenCount, userAddress: res.token.userAddress})
+    res.status(200).json({tokenCount:res.token.tokenCount, tokenAddress: res.token.tokenAddress})
 })
 
 //create one
@@ -53,16 +53,15 @@ router.post('/create', async (req, res) => {
 })
 
 //Mint a token one
-router.post('/mint', async (req, res) => {
-    const token = new Token({
-        "userAddress": req.body.tokenName,
+router.post('/userToTokenMap', async (req, res) => {
+    const userToToken = new UserToToken({
+        "userAddress": req.body.userAddress,
         "tokenAddress": req.body.tokenAddress,
-        "tokenId": req.body.createdBy
-
+        "tokenId": req.body.tokenId  
     })
     try {
-        const newToken = await token.save()
-        res.status(201).json(newToken)
+        const newUserToToken = await userToToken.save()
+        res.status(201).json(newUserToToken)
     } catch (error) {
         res.status(400).json({message: error.message} )
     }

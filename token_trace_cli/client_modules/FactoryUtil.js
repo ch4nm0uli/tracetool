@@ -1,6 +1,7 @@
 //internal imports
 const Factory = require("../internal/factory")
 const Token = require("../internal/token")
+const User = require("./UserUtil")
 const config = require("../internal/const/config.json")
 
 //3pl
@@ -83,15 +84,89 @@ const factoryUtil = {
     //mints a single product having no raw materials
     singleMint: async function(userId, tokenName, factoryId){
         //get token address, token count
+        let tokenAddress = ""
+        let tokenCount = undefined
         await axios({
             method: "get",
-            
+            url: apiUrl + "/token/getTokenId/" + tokenName
+        }).then((res) => {
+            if(res.status == 200){
+                tokenAddress = res.data.tokenAddress
+                tokenCount = res.data.tokenCount
+            }else{
+                console.error("Error in fetching " + apiUrl + "/token/getTokenId/" + tokenName)
+                process.exit(1)
+            }
         })
+
+        //get factory address
+        let factoryAddress = ""
+        await axios({
+            method: "get",
+            url: apiUrl + "/factory/" + factoryId
+        }).then((res) => {
+            if(res.status == 200){
+                factoryAddress = res.data.factoryAddress
+            }else{
+                console.error("Error in fetching " + apiUrl + "/factory/" + factoryId)
+                process.exit(1)
+            }
+        })
+
+        //get factory contract instance
+        let factoryContract = await Factory.getContractInstance(factoryAddress)
+
+        //single mint the shit out of it
+        await factoryContract.singleMint(tokenAddress, tokenCount)
+
+        //update userToToken map
+        let userAddress = await User.getUserAddressFromId(userId)
+        await axios({
+            method: "post",
+            url: apiUrl + "/token/userToTokenMap",
+            data: {
+                userAddress: userAddress,
+                tokenAddress: tokenAddress,
+                tokenId: tokenCount
+            }
+        }).then((res) => {
+            if(res.status == 201){
+                console.log(`Updated user<${userId}, ${userAddress}> to token<${tokenAddress}, ${tokenCount}> map`)
+            }else{
+                console.error("Error in posting " + apiUrl + "/token/userToTokenMap")
+                process.exit(1)
+            }
+        })
+
+
+        //increment the tokenCount in db
+        await axios({
+            method: "patch",
+            url: apiUrl + "/token/" + tokenName,
+            data: {
+                tokenCount: tokenCount + 1
+            }
+        }).then((res) => {
+            if(res.status == 200){
+                console.log("Updated token count.")
+            }else{
+                console.error("Error in patching " + apiUrl + "/token/" + tokenName)
+                process.exit(1)
+            }
+        })
+        
+    },
+
+    multiMint: async function(userId, tokenName, factoryId, rCount, rTokenNames, rTokenId){
+        //check if all the r token address  and r token ids are in the db
+        //get address for all the token names
+
+        //get token address and token count
         //get factory address
         //get factory contract instance
-        //single mint the shit out of it
-        //update userToToken map
-        //increment the tokenCount in db
+        //multi mint the shit out of it
+        //update user token map
+        //increment token count in db
     },
 
     //Gets the factory owners address given the factoryId

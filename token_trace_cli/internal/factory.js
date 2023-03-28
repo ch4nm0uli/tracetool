@@ -23,7 +23,8 @@ const Factory = {
     },
 
     getContractInstance: async function (contractAddress){
-        let contract = await new ethers.Contract(contractAddress, factoryMeta.abi, provider)
+        const signer = await provider.getSigner(config.accountIndex)
+        let contract = await new ethers.Contract(contractAddress, factoryMeta.abi, signer)
         return contract
     },
     isAvailable: async function (factoryId) {
