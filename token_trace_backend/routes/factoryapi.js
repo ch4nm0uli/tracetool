@@ -63,10 +63,20 @@ router.patch('/:id',getFactory, async (req, res) => {
 })
 
 //delete one
-router.delete('/:id', getFactory, async (req, res) => {
+// router.delete('/:id', getFactory, async (req, res) => {
+//     try {
+//         result = await Factory.deleteOne({factoryId:req.params.id})
+//         res.json({message: `Deleted factory ${req.params.id}`, res: result})
+//     } catch (error) {
+//         res.status(500).json({message: error.message})
+//     }
+// })
+
+//delete all
+router.delete('/all', async (req, res) => {
     try {
-        result = await Factory.deleteOne({factoryId:req.params.id})
-        res.json({message: `Deleted factory ${req.params.id}`, res: result})
+        result = await Factory.deleteMany({})
+        res.json({message: `Deleted factory DB`, res: result})
     } catch (error) {
         res.status(500).json({message: error.message})
     }

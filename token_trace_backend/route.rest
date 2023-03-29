@@ -1,3 +1,26 @@
+#delete db
+DELETE  http://localhost:3000/factory/all
+
+###
+DELETE  http://localhost:3000/user/all 
+###
+DELETE  http://localhost:3000/token/all 
+###
+DELETE  http://localhost:3000/user2token/all 
+
+#get all
+###
+GET http://localhost:3000/factory/ 
+###
+GET http://localhost:3000/user/ 
+###
+GET http://localhost:3000/token/ 
+###
+GET http://localhost:3000/user2token/ 
+
+
+###
+
 GET http://localhost:3000/factory/ 
 
 ###
@@ -65,3 +88,15 @@ DELETE http://localhost:3000/token/token_1
 GET http://localhost:3000/token/getTokenId/token_1
 
 ###
+
+
+#user2token
+GET http://localhost:3000/user2token/ 
+
+###
+
+ GET http://localhost:3000/user2token/isvalid/0xFE8e4C27946926Cb86E23fB7C3F4D4f18ADc7b58/0
+
+###
+
+ GET http://localhost:3000/user2token/isvalid

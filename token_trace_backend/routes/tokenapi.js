@@ -1,7 +1,6 @@
 const express = require("express")
 const router = express.Router()
 const Token = require('../models/token')
-const UserToToken = require('../models/userTokenMap')
 
 
 
@@ -52,21 +51,6 @@ router.post('/create', async (req, res) => {
     }
 })
 
-//Mint a token one
-router.post('/userToTokenMap', async (req, res) => {
-    const userToToken = new UserToToken({
-        "userAddress": req.body.userAddress,
-        "tokenAddress": req.body.tokenAddress,
-        "tokenId": req.body.tokenId  
-    })
-    try {
-        const newUserToToken = await userToToken.save()
-        res.status(201).json(newUserToToken)
-    } catch (error) {
-        res.status(400).json({message: error.message} )
-    }
-})
-
 //update one
 router.patch('/:id',getToken, async (req, res) => {
 
@@ -83,11 +67,21 @@ router.patch('/:id',getToken, async (req, res) => {
 })
 
 
-//delete one
-router.delete('/:id', async (req, res) => {
+// //delete one
+// router.delete('/:id', async (req, res) => {
+//     try {
+//         result = await Token.deleteOne({tokenName:req.params.id})
+//         res.json({message: `Deleted token ${req.params.id}`, res: result})
+//     } catch (error) {
+//         res.status(500).json({message: error.message})
+//     }
+// })
+
+//delete all
+router.delete('/all', async (req, res) => {
     try {
-        result = await Token.deleteOne({tokenName:req.params.id})
-        res.json({message: `Deleted token ${req.params.id}`, res: result})
+        result = await Token.deleteMany({})
+        res.json({message: `Deleted token DB`, res: result})
     } catch (error) {
         res.status(500).json({message: error.message})
     }

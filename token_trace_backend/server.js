@@ -21,4 +21,7 @@ app.use('/user',userApiRoute)
 const tokenApiRoute = require('./routes/tokenapi')
 app.use('/token',tokenApiRoute)
 
+const usertokenmap = require('./routes/usertknapi')
+app.use('/user2token',usertokenmap)
+
 app.listen(PORT, () => console.log(`server started on port ${PORT}`))

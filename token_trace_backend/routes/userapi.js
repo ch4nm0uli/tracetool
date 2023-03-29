@@ -74,10 +74,21 @@ router.patch('/:id',getUser, async (req, res) => {
 })
 
 //delete one
-router.delete('/:id', async (req, res) => {
+// router.delete('/:id', async (req, res) => {
+//     try {
+//         result = await User.deleteOne({userId:req.params.id})
+//         res.json({message: `Deleted user ${req.params.id}`, res: result})
+//     } catch (error) {
+//         res.status(500).json({message: error.message})
+//     }
+// })
+
+
+//delete all
+router.delete('/all', async (req, res) => {
     try {
-        result = await User.deleteOne({userId:req.params.id})
-        res.json({message: `Deleted user ${req.params.id}`, res: result})
+        result = await User.deleteMany({})
+        res.json({message: `Deleted user DB`, res: result})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
