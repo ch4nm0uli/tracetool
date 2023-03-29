@@ -1,5 +1,12 @@
+const config = require("./const/config.json")
+const fs = require('fs')
 
 const util = {
+    changeUser: function(accountIndex){
+        const data = JSON.parse(fs.readFileSync(config.path));
+        data.accountIndex = Number(accountIndex)
+        fs.writeFileSync(config.path, JSON.stringify(data))
+    },
     arrayParser: function(arrayStr){
         let arr = arrayStr.slice( 1, -1).split(",");
         return arr

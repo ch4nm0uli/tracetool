@@ -1,6 +1,7 @@
 //internal imports
 const tokenMeta = require('./contract/Token.json')
 const config = require("./const/config.json")
+const User = require("./user")
 
 //3pl
 const ethers = require('ethers')
@@ -12,7 +13,7 @@ const apiUrl = config.apiUrl
 const Token = {
     createNewToken: async function (tkn_name) {
         console.log("Creating new token...")
-        const signer = await provider.getSigner(config.accountIndex)
+        const signer = await User.getSigner()
         const token = new ethers.ContractFactory(tokenMeta.abi, tokenMeta.bytecode, signer)
         const contract = await token.deploy(tkn_name)
         const address = await contract.getAddress()
@@ -21,7 +22,8 @@ const Token = {
     },
 
     getContractInstance: async function (contractAddress){
-        let contract = await new ethers.Contract(contractAddress, factoryMeta.abi, provider)
+        const signer = await User.getSigner()
+        let contract = await new ethers.Contract(contractAddress, tokenMeta.abi, signer )
         return contract
     },
     isAvailable: async function (tokenName) {

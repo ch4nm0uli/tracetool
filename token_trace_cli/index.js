@@ -4,6 +4,7 @@
 const config = require("./internal/const/config.json")
 const { RegisterNewFactory, getOwner, inventNewToken, singleMint, multiMint} = require("./client_modules/FactoryUtil")
 const {RegisterNewUser} = require("./client_modules/UserUtil")
+const {transferToken} = require("./client_modules/TokenUtil")
 const User = require("./internal/user")
 const utils = require("./internal/utils")
 const {showhelp} = require("./internal/help")
@@ -17,7 +18,7 @@ console.log("Client started...")
 async function main() {
     let isReg = await User.isRegistered()
     console.log("IsReg ", isReg)
-    if(!isReg && argv._[2] != "user" && argv._[3] != "register"){
+    if(!isReg && argv._[2] != "user" && argv._[3] != "register" && argv._[2] != "change_account"){
         console.error(`User is not registered! 
         use command: trace_cli user register --userId=<user_id>
         `)
@@ -80,6 +81,16 @@ async function main() {
                     break;
             }
             break;
+        case "transfer":
+            if (argv.toUser == undefined) { console.error("No to user Id provided!"); process.exit(1); }
+            if (argv.tokenName == undefined) { console.error("No token name provided!"); process.exit(1); }
+            if (argv.tokenId == undefined) { console.error("No token Id provided!"); process.exit(1); }
+            await transferToken(argv.toUser, argv.tokenName, Number(argv.tokenId))
+            break
+        case "change_account":
+            if (argv.accountIndex == undefined) { console.error("No account index provided!"); process.exit(1); }
+            utils.changeUser(argv.accountIndex)
+            break
         default:
             showhelp()
             break;

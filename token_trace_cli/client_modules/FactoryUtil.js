@@ -59,7 +59,7 @@ const factoryUtil = {
         try {
             tokenAddress = await Token.createNewToken(tokenName)
         } catch (error) {
-            console.error("Error in creating token!")
+            console.error("Error in creating token!" + error)
             process.exit(1)
         }
 

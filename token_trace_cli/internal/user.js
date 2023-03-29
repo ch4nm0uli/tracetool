@@ -32,6 +32,7 @@ const User = {
         return isAvail
     },
 
+    //true when no user name userId is found
     isAvailable: async function (userId) {
         isAvail = false
         await axios({
@@ -55,6 +56,34 @@ const User = {
     getSignerAddress: async function(){
         const signer = await provider.getSigner(config.accountIndex)
         return signer.address
+    },
+    getSigner: async function(){
+        const signer = await provider.getSigner(config.accountIndex)
+        return signer
+    },
+
+
+    getUserAddressFromId: async function(userId) {
+        let userAddress = ""
+        if(await this.isAvailable(userId)){
+            console.error(`Error: user ${userId} is not registered!`)
+            process.exit(1)
+        }
+
+        await axios({
+            method: "get",
+            url: apiUrl + "/user/" + userId
+        }).then((res) => {
+            if(res.status == 200){
+                userAddress = res.data.userAddress
+            }else{
+                console.error("Error in fetching "  + apiUrl + "/" + userId)
+                process.exit(1)
+            }
+        })
+
+        return userAddress
+
     }
 }
 

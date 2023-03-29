@@ -2,6 +2,8 @@
 //internal imports
 // const Token = require("../internal/token")
 const config = require("../internal/const/config.json")
+const User = require("../internal/user")
+const Token = require("../internal/token")
 
 //3pl
 const axios = require("axios")
@@ -9,6 +11,66 @@ const axios = require("axios")
 const apiUrl = config.apiUrl
 
 const tokenUtil = {
+
+    transferToken: async function(to, tokenName, tokenId){
+        // get address of to
+        const toAddress = await User.getUserAddressFromId(to)
+
+        // get address of token
+        const tokenAddress = await tokenUtil.getTokenAddressFromName(tokenName)
+
+        // get token instance
+        const tokenInstance = await Token.getContractInstance(tokenAddress)
+
+        // transfer the token TransferTo(id, to)
+        try {
+            await tokenInstance.TransferTo(tokenId, toAddress)
+        } catch (error) {
+            console.error("Error occured while transfering!" + error)   
+            process.exit(1)
+        }
+
+        // update the usertotoken map (change the user address to 'to' address)
+        await axios({
+            method: "patch",
+            url: apiUrl + "/user2token/" + tokenAddress + "/" + tokenId,
+            data:{
+                userAddress: toAddress
+            }
+        }).then((res) => {
+            if(res.status == 200){
+                console.log("Updated user to token map.")
+            }else{
+                console.error("Failed to patch " + apiUrl + "/user2token/" + tokenId + "/" + tokenAddress )
+                process.exit(1)
+            }
+        }).catch((err) => {
+            console.error(err.response.data)
+        })
+    },
+    traceItem: async function(tokenName, tokenId){
+        // {
+        //     tokenAddress: "gfds",
+        //     tokenName: "token_1",
+        //      tokenId: 
+        //     factoryAddress: "facfaer32",
+        //     factoryId: "factory_1",
+        //     TransferLogs: [{from: , to: }, ...], // index 0 the first transfer
+        //     rawMaterials: [{id, address, name}, {}...apiUrl.at.]            
+        // }
+        // let trace = {}
+        // get token address from name
+        // const tokenAddress = await tokenUtil.getTokenAddressFromName(tokenName)
+        // trace.tokenAddress = tokenAddress
+        // trace.tokenName = tokenName
+        // trace.tokenId = tokenId
+        // get transfer logs
+
+        // get madeIn log
+        // extract address of factory 
+        // get raw material logs from factory
+        //
+    },
     getTokenAddressFromName: async function(tokenName){
         let tokenAddress = ""
         await axios({
@@ -21,6 +83,8 @@ const tokenUtil = {
                 console.error(`Token ${tokenName} not found!`)
                 process.exit(1)
             }
+        }).catch((err) => {
+            console.log(err.response.data)
         })
         return tokenAddress
     },

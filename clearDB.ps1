@@ -1,0 +1,1 @@
+node ./token_trace_cli/test.js
