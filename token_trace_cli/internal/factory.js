@@ -22,6 +22,36 @@ const Factory = {
         return address
     },
 
+    getRawMaterialLogs: async function(factoryAddress, tokenAddress, tokenId){
+        const factoryInstance = await Factory.getContractInstance(factoryAddress)
+        const eventFragment = factoryInstance.filters.RawMaterial().fragment
+
+        const  interfc = new ethers.Interface(factoryMeta.abi)
+        const topics = interfc.encodeFilterTopics(eventFragment,[tokenAddress,Number(tokenId)])
+
+        let filter = {}
+        
+        filter['fromBlock'] = 0
+        filter['toBlock'] = "latest"   
+        filter['address'] = ethers.getAddress(factoryAddress)
+        filter['topics'] = topics   
+        
+        const logs = await provider.getLogs(filter)
+
+        const rawMaterials = []
+        logs.forEach((log) => {
+            let parsedLog = interfc.parseLog(log);
+            const t = {
+                id: Number(parsedLog.args.rawTknId),
+                address:parsedLog.args.rawAddr,
+            }
+
+            rawMaterials.push(t)
+        })
+
+        return rawMaterials
+    },
+
     getContractInstance: async function (contractAddress){
         const signer = await provider.getSigner(config.accountIndex)
         let contract = await new ethers.Contract(contractAddress, factoryMeta.abi, signer)

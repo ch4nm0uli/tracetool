@@ -7,6 +7,7 @@ const Token = require("../internal/token")
 
 //3pl
 const axios = require("axios")
+const Factory = require("../internal/factory")
 
 const apiUrl = config.apiUrl
 
@@ -58,16 +59,23 @@ const tokenUtil = {
         //     TransferLogs: [{from: , to: }, ...], // index 0 the first transfer
         //     rawMaterials: [{id, address, name}, {}...apiUrl.at.]            
         // }
-        // let trace = {}
+        let trace = {}
         // get token address from name
-        // const tokenAddress = await tokenUtil.getTokenAddressFromName(tokenName)
-        // trace.tokenAddress = tokenAddress
-        // trace.tokenName = tokenName
-        // trace.tokenId = tokenId
+        const tokenAddress = await tokenUtil.getTokenAddressFromName(tokenName)
+        trace.tokenAddress = tokenAddress
+        trace.tokenName = tokenName
+        trace.tokenId = tokenId
+
         // get transfer logs
+        trace.TransferLogs = await Token.getTransferLogs(tokenAddress, tokenId)
 
         // get madeIn log
         // extract address of factory 
+        trace.factoryAddress = await Token.getMadeIn(tokenAddress, tokenId)
+        
+        trace.rawMaterials = await Factory.getRawMaterialLogs(trace.factoryAddress, tokenAddress, tokenId)
+
+        console.log(trace)
         // get raw material logs from factory
         //
     },

@@ -4,7 +4,7 @@
 const config = require("./internal/const/config.json")
 const { RegisterNewFactory, getOwner, inventNewToken, singleMint, multiMint} = require("./client_modules/FactoryUtil")
 const {RegisterNewUser} = require("./client_modules/UserUtil")
-const {transferToken} = require("./client_modules/TokenUtil")
+const {transferToken, traceItem} = require("./client_modules/TokenUtil")
 const User = require("./internal/user")
 const utils = require("./internal/utils")
 const {showhelp} = require("./internal/help")
@@ -90,6 +90,11 @@ async function main() {
         case "change_account":
             if (argv.accountIndex == undefined) { console.error("No account index provided!"); process.exit(1); }
             utils.changeUser(argv.accountIndex)
+            break
+        case "trace":
+            if (argv.tokenName == undefined) { console.error("No token name provided!"); process.exit(1); }
+            if (argv.tokenId == undefined) { console.error("No token name provided!"); process.exit(1); }
+            await traceItem(argv.tokenName, Number(argv.tokenId))
             break
         default:
             showhelp()

@@ -27,3 +27,7 @@ node ./token_trace_cli/index.js mint multi --userId=user_1 --factoryId=factory_1
 echo("transfer from user_1 to user_2")
 node ./token_trace_cli/index.js transfer --tokenName=token_3 --tokenId=0 --toUser=user_2
 
+echo("trace............")
+node ./token_trace_cli/index.js trace --tokenName=token_3 --tokenId=0 
+node ./token_trace_cli/index.js trace --tokenName=token_4 --tokenId=0 
+
