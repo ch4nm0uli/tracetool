@@ -1,1 +1,1 @@
-{"accountIndex":0,"provider":"http://127.0.0.1:8545","apiUrl":"http://localhost:3000","path":"F:/blkchain/metaschool/token_trace_cli/internal/const/config.json"}
+{"accountIndex":0,"provider":"http://127.0.0.1:8545","apiUrl":"http://localhost:3000","path":"F:/blkchain/metaschool/token_trace_cli/internal/const/config.json","ipfs":{"RPC_SERVER":"http://127.0.0.1:5001/api/v0","HTTP_SERVER":"http://127.0.0.1:8080/ipfs/"}}

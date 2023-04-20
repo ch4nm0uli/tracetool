@@ -64,9 +64,13 @@ async function main() {
             if (argv.userId == undefined) { console.error("No user Id provided!"); process.exit(1); }
             if (argv.tokenName == undefined) { console.error("No token name provided!"); process.exit(1); }
             if (argv.factoryId == undefined) { console.error("No factory Id provided!"); process.exit(1); }
+            var metadata = "No metadata provided"
+            if (argv.metadata != undefined) {
+                metadata = argv.metadata
+            }
             switch (argv._[3]) {
                 case "single":
-                    await singleMint(argv.userId, argv.tokenName, argv.factoryId)
+                    await singleMint(argv.userId, argv.tokenName, argv.factoryId, metadata)
                     break;
                 case "multi":
                     if (argv.rNames == undefined) { console.error("No ram material names provided!"); process.exit(1); }
@@ -74,7 +78,7 @@ async function main() {
                     let rNames = utils.arrayParser(argv.rNames)
                     let rIds = utils.arrayParserInt(argv.rIds)
                     
-                    await multiMint(argv.userId, argv.tokenName, argv.factoryId, rNames, rIds)
+                    await multiMint(argv.userId, argv.tokenName, argv.factoryId, rNames, rIds, metadata)
                     break
                 default:
                     showhelp()
@@ -85,7 +89,11 @@ async function main() {
             if (argv.toUser == undefined) { console.error("No to user Id provided!"); process.exit(1); }
             if (argv.tokenName == undefined) { console.error("No token name provided!"); process.exit(1); }
             if (argv.tokenId == undefined) { console.error("No token Id provided!"); process.exit(1); }
-            await transferToken(argv.toUser, argv.tokenName, Number(argv.tokenId))
+            var metadata = "No metadata provided"
+            if (argv.metadata != undefined) {
+                metadata = argv.metadata
+            }
+            await transferToken(argv.toUser, argv.tokenName, Number(argv.tokenId), metadata)
             break
         case "change_account":
             if (argv.accountIndex == undefined) { console.error("No account index provided!"); process.exit(1); }

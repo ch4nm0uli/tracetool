@@ -4,6 +4,7 @@
 const config = require("../internal/const/config.json")
 const User = require("../internal/user")
 const Token = require("../internal/token")
+const ipfs_lib = require("../internal/ipfs_lib")
 
 //3pl
 const axios = require("axios")
@@ -13,7 +14,7 @@ const apiUrl = config.apiUrl
 
 const tokenUtil = {
 
-    transferToken: async function(to, tokenName, tokenId){
+    transferToken: async function(to, tokenName, tokenId, metadata){
         // get address of to
         const toAddress = await User.getUserAddressFromId(to)
 
@@ -23,9 +24,12 @@ const tokenUtil = {
         // get token instance
         const tokenInstance = await Token.getContractInstance(tokenAddress)
 
+        // store meta data in ipfs and get cid
+        const cid = await ipfs_lib.AddData(metadata)
+
         // transfer the token TransferTo(id, to)
         try {
-            await tokenInstance.TransferTo(tokenId, toAddress)
+            await tokenInstance.TransferTo(tokenId, toAddress, cid)
         } catch (error) {
             console.error("Error occured while transfering!" + error)   
             process.exit(1)

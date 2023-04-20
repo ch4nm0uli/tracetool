@@ -38,7 +38,8 @@ const Token = {
         const logs = await provider.getLogs(filter)
 
         const transferLogs = []
-        logs.forEach((log) => {
+        for(let i=0;i<logs.length;i++){
+            let log = logs[i]
             let parsedLog = interfc.parseLog(log);
             // console.log("---------------start-----------")
             // console.log(log.topics)
@@ -46,11 +47,27 @@ const Token = {
             // console.log("---------------end-----------")
             const t = {
                 from: parsedLog.args.from,
-                to: parsedLog.args.to
+                to: parsedLog.args.to,
+                // metadata: await ipfs_lib.GetData(parsedLog.args.ipfsHash)
+                ipfs_cid: parsedLog.args.ipfsHash
             }
 
             transferLogs.push(t)
-        })
+        }
+        // logs.forEach(async (log) => {
+        //     let parsedLog = interfc.parseLog(log);
+        //     // console.log("---------------start-----------")
+        //     // console.log(log.topics)
+        //     // console.log(a)
+        //     // console.log("---------------end-----------")
+        //     const t = {
+        //         from: parsedLog.args.from,
+        //         to: parsedLog.args.to,
+        //         ipfs_cid: await ipfs_lib.GetData(parsedLog.args.ipfsHash)
+        //     }
+
+        //     transferLogs.push(t)
+        // })
 
         return transferLogs
     },
