@@ -5,7 +5,7 @@ const config = require("./const/config.json")
 const stream = require("stream")
 const ipfs_lib = {
 
-    AddData: async function (data) {
+    _AddData: async function (data) {
         if(typeof(data) != typeof("")){
             console.error("Error only string data is supported in ipfs_lib.AddData()!")
             process.exit(1)
@@ -33,6 +33,19 @@ const ipfs_lib = {
         }else{
             console.error("Error occured while processing IPFS add call!")
             process.exit(1)
+        }
+    },
+
+    _AddJsonFile: async function(filepath){
+        const data = fs.readFileSync(filepath)
+        return await this._AddData(Buffer.from(data).toString())
+    },
+
+    AddData: async function(metadata, isFile=false){
+        if(isFile){
+            return await this._AddJsonFile(metadata)
+        }else{
+            return await this._AddData(metadata)
         }
     },
 

@@ -22,7 +22,8 @@ node ./token_trace_cli/index.js mint single --userId=user_1 --factoryId=factory_
 
 echo("multi mint")
 node ./token_trace_cli/index.js mint multi --userId=user_1 --factoryId=factory_1 --tokenName=token_3 --rNames=[token_1,token_2] --rIds=[0,0] --metadata=token_3_mint_1
-node ./token_trace_cli/index.js mint multi --userId=user_1 --factoryId=factory_1 --tokenName=token_4 --rNames=[token_2,token_3] --rIds=[1,0] --metadata=token_4_mint_1
+node ./token_trace_cli/index.js mint multi --userId=user_1 --factoryId=factory_1 --tokenName=token_4 --rNames=[token_2,token_3] --rIds=[1,0] --metadata=./inputs/token_4_1.json -f
+# node ./token_trace_cli/index.js mint multi --userId=user_1 --factoryId=factory_1 --tokenName=token_4 --rNames=[token_2,token_3] --rIds=[1,0] --metadata=token_4_mint_1
 
 echo("transfer from user_1 to user_2")
 node ./token_trace_cli/index.js transfer --tokenName=token_3 --tokenId=0 --toUser=user_2 --metadata=transfer_from_user_1_to_user_2

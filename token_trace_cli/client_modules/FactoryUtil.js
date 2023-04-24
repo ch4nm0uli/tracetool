@@ -84,7 +84,7 @@ const factoryUtil = {
     },
 
     //mints a single product having no raw materials
-    singleMint: async function (userId, tokenName, factoryId, metadata) {
+    singleMint: async function (userId, tokenName, factoryId, metadata, isFile=false) {
         //get token address, token count
         let tokenAddress = ""
         let tokenCount = undefined
@@ -119,7 +119,7 @@ const factoryUtil = {
         let factoryContract = await Factory.getContractInstance(factoryAddress)
 
         // store meta data in ipfs and get cid
-        const cid = await ipfs_lib.AddData(metadata)
+        const cid = await ipfs_lib.AddData(metadata, isFile)
 
         //single mint 
         await factoryContract.singleMint(tokenAddress, tokenCount, cid)
@@ -162,7 +162,7 @@ const factoryUtil = {
 
     },
 
-    multiMint: async function (userId, tokenName, factoryId, rTokenNames, rTokenId, metadata) {
+    multiMint: async function (userId, tokenName, factoryId, rTokenNames, rTokenId, metadata, isFile=false) {
         if (rTokenId.length != rTokenNames.length) {
             console.error("Token names list length dosen't match token id list length!")
             process.exit(1)
@@ -219,7 +219,7 @@ const factoryUtil = {
         let factoryContract = await Factory.getContractInstance(factoryAddress)
 
         // store meta data in ipfs and get cid
-        const cid = await ipfs_lib.AddData(metadata)
+        const cid = await ipfs_lib.AddData(metadata, isFile)
 
         //multi mint 
         await factoryContract.MultiMint(rCount, rAddress, rTokenId, tokenAddress, tokenCount, cid)

@@ -2,6 +2,7 @@
 const tokenMeta = require('./contract/Token.json')
 const config = require("./const/config.json")
 const User = require("./user")
+const ipfs_lib = require("./ipfs_lib")
 
 //3pl
 const ethers = require('ethers')
@@ -48,8 +49,8 @@ const Token = {
             const t = {
                 from: parsedLog.args.from,
                 to: parsedLog.args.to,
-                // metadata: await ipfs_lib.GetData(parsedLog.args.ipfsHash)
-                ipfs_cid: parsedLog.args.ipfsHash
+                metadata: await ipfs_lib.GetData(parsedLog.args.ipfsHash)
+                // ipfs_cid: parsedLog.args.ipfsHash
             }
 
             transferLogs.push(t)

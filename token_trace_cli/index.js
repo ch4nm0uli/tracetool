@@ -11,9 +11,9 @@ const {showhelp} = require("./internal/help")
 
 //3pl
 const yargs = require("yargs")
-const { argv } = yargs(process.argv)
+const { argv } = yargs(process.argv).boolean("f")
 
-console.log("Client started...")
+console.log("Client started...][][][")
 
 async function main() {
     let isReg = await User.isRegistered()
@@ -70,7 +70,7 @@ async function main() {
             }
             switch (argv._[3]) {
                 case "single":
-                    await singleMint(argv.userId, argv.tokenName, argv.factoryId, metadata)
+                    await singleMint(argv.userId, argv.tokenName, argv.factoryId, metadata, isFile=argv.f)
                     break;
                 case "multi":
                     if (argv.rNames == undefined) { console.error("No ram material names provided!"); process.exit(1); }
@@ -78,7 +78,7 @@ async function main() {
                     let rNames = utils.arrayParser(argv.rNames)
                     let rIds = utils.arrayParserInt(argv.rIds)
                     
-                    await multiMint(argv.userId, argv.tokenName, argv.factoryId, rNames, rIds, metadata)
+                    await multiMint(argv.userId, argv.tokenName, argv.factoryId, rNames, rIds, metadata, isFile=argv.f)
                     break
                 default:
                     showhelp()

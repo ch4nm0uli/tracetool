@@ -1,0 +1,7 @@
+{
+    "name": "token_4_1",
+    "specs":{
+        "weight": {"value":23, "unit":"KG"},
+        "power": {"value":120, "unit":"KWh"},
+    } 
+}
