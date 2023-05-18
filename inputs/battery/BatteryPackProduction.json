@@ -1,0 +1,10 @@
+{
+    "packId": "B123456789",
+    "packProducer": "Battery Pack Inc.",
+    "productionDate": "2022-08-01",
+    "moduleIds": ["M123456789", "M987654321"],
+    "packCapacity": 200,
+    "packVoltage": 800,
+    "packWeight": 15.5,
+    "certificate": "PACK456"
+}

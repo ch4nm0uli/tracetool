@@ -1,0 +1,8 @@
+{
+    "rawMaterialId": "RM987654",
+    "supplier": "ABC Minerals",
+    "quantity": 1000,
+    "date": "2022-06-01",
+    "location": "XYZ Country",
+    "certificate": "RM123"
+}

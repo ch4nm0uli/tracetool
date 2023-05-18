@@ -44,7 +44,7 @@ const tokenUtil = {
             }
         }).then((res) => {
             if(res.status == 200){
-                console.log("Updated user to token map.")
+                // console.log("Updated user to token map.")
             }else{
                 console.error("Failed to patch " + apiUrl + "/user2token/" + tokenId + "/" + tokenAddress )
                 process.exit(1)
@@ -68,6 +68,37 @@ const tokenUtil = {
         const tokenAddress = await tokenUtil.getTokenAddressFromName(tokenName)
         trace.tokenAddress = tokenAddress
         trace.tokenName = tokenName
+        trace.tokenId = tokenId
+
+        // get transfer logs
+        trace.TransferLogs = await Token.getTransferLogs(tokenAddress, tokenId)
+
+        // get madeIn log
+        // extract address of factory 
+        trace.factoryAddress = await Token.getMadeIn(tokenAddress, tokenId)
+        
+        trace.rawMaterials = await Factory.getRawMaterialLogs(trace.factoryAddress, tokenAddress, tokenId)
+
+        console.log(trace)
+        // get raw material logs from factory
+        //
+    },
+
+    traceItemRaw: async function(tokenAddress, tokenId){
+        // {
+        //     tokenAddress: "gfds",
+        //     tokenName: "token_1",
+        //      tokenId: 
+        //     factoryAddress: "facfaer32",
+        //     factoryId: "factory_1",
+        //     TransferLogs: [{from: , to: }, ...], // index 0 the first transfer
+        //     rawMaterials: [{id, address, name}, {}...apiUrl.at.]            
+        // }
+        let trace = {}
+        // get token address from name
+        // const tokenAddress = await tokenUtil.getTokenAddressFromName(tokenName)
+        trace.tokenAddress = tokenAddress
+        // trace.tokenName = tokenName
         trace.tokenId = tokenId
 
         // get transfer logs

@@ -118,11 +118,14 @@ const factoryUtil = {
         //get factory contract instance
         let factoryContract = await Factory.getContractInstance(factoryAddress)
 
+
+
         // store meta data in ipfs and get cid
         const cid = await ipfs_lib.AddData(metadata, isFile)
 
         //single mint 
         await factoryContract.singleMint(tokenAddress, tokenCount, cid)
+        console.log(`single minted ${tokenName} id=${tokenCount}`)
 
         //update userToToken map
         let userAddress = await UserUtil.getUserAddressFromId(userId)
@@ -136,7 +139,7 @@ const factoryUtil = {
             }
         }).then((res) => {
             if (res.status == 201) {
-                console.log(`Updated user<${userId}, ${userAddress}> to token<${tokenAddress}, ${tokenCount}> map`)
+                // console.log(`Updated user<${userId}, ${userAddress}> to token<${tokenAddress}, ${tokenCount}> map`)
             } else {
                 console.error("Error in posting " + apiUrl + "/user2token/userToTokenMap")
                 process.exit(1)
@@ -153,7 +156,7 @@ const factoryUtil = {
             }
         }).then((res) => {
             if (res.status == 200) {
-                console.log("Updated token count.")
+                // console.log("Updated token count.")
             } else {
                 console.error("Error in patching " + apiUrl + "/token/" + tokenName)
                 process.exit(1)
@@ -223,6 +226,7 @@ const factoryUtil = {
 
         //multi mint 
         await factoryContract.MultiMint(rCount, rAddress, rTokenId, tokenAddress, tokenCount, cid)
+        console.log(`Multi minted ${tokenName} id=${tokenCount}`)
 
         //update user token map
         let userAddress = await UserUtil.getUserAddressFromId(userId)
@@ -236,7 +240,7 @@ const factoryUtil = {
             }
         }).then((res) => {
             if (res.status == 201) {
-                console.log(`Updated user<${userId}, ${userAddress}> to token<${tokenAddress}, ${tokenCount}> map`)
+                // console.log(`Updated user<${userId}, ${userAddress}> to token<${tokenAddress}, ${tokenCount}> map`)
             } else {
                 console.error("Error in posting " + apiUrl + "/user2token/userToTokenMap")
                 process.exit(1)
@@ -251,7 +255,7 @@ const factoryUtil = {
             }
         }).then((res) => {
             if (res.status == 200) {
-                console.log("Updated token count.")
+                // console.log("Updated token count.")
             } else {
                 console.error("Error in patching " + apiUrl + "/token/" + tokenName)
                 process.exit(1)
@@ -268,7 +272,7 @@ const factoryUtil = {
         }).then((res) => {
             if (res.status == 200) {
                 factoryAddress = res.data.factoryAddress
-                console.log("factoryAddress: ", factoryAddress)
+                // console.log("factoryAddress: ", factoryAddress)
             } else if (res.status == 404) {
                 console.error("Factory not found!")
                 process.exit(1)
@@ -277,7 +281,7 @@ const factoryUtil = {
 
         let contract = await Factory.getContractInstance(factoryAddress)
         return await contract.getOwner()
-    }
+    },
 
 }
 

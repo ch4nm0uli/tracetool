@@ -1,0 +1,41 @@
+{
+    "battery_passport_id": "",
+    "battery_serial_number":"",
+    "battery_model":"",
+    "battery_status": "[original/recycled]",
+    "ev_manufacturer":"",
+    "battery_producers":"",
+    "manufacturing_date":"",
+    "country_of_assembly":"",
+    "country_of_battery_production":"",
+    "country_of_cell_production":"",
+    "battery_cell_type":"",
+    "cell_count":"",
+    "total_energy":"",
+    "rated_capacity":"",
+    "voltage": {
+        "min":"",
+        "nominal":"",
+        "max":""
+    },
+    "chemistry":"",
+    "weight":"",
+    "energy_density":"",
+    "expected_lifetime":"",
+    "temperature_range": "min-max",
+    "materials": {
+        "recycled_materials": {
+            "weight": "",
+            "percentage_composition":"",
+        },
+        "cathode":"",
+        "anode":"",
+        "electrolyte":"",
+        "seperator":"",
+        "casing":""
+    },
+    "cretificates":{
+
+    }
+
+}

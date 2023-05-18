@@ -42,4 +42,8 @@ contract Token {
     function ownerOf(uint256 TknId) public view returns(address){
         return _owners[TknId];
     }
+
+    function burn(uint256 TknId) public {
+        
+    }
 }

@@ -1,0 +1,165 @@
+{
+    "title": "Battery Trace Data",
+    "description": "A detailed schema for storing battery trace data capturing maximum data points for Indian market",
+    "type": "object",
+    "properties": {
+      "batteryTraceId": {
+        "type": "string",
+        "description": "Unique identifier for the battery trace"
+      },
+      "vehicle": {
+        "type": "object",
+        "description": "Information about the vehicle using the battery",
+        "properties": {
+          "vehicleId": {
+            "type": "string",
+            "description": "Unique identifier for the vehicle"
+          },
+          "make": {
+            "type": "string",
+            "description": "Manufacturer of the vehicle"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model of the vehicle"
+          },
+          "year": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2099,
+            "description": "Year of vehicle manufacturing"
+          },
+          "variant": {
+            "type": "string",
+            "description": "Variant of the model"
+          }
+        },
+        "required": ["vehicleId", "make", "model", "year"]
+      },
+      "battery": {
+        "type": "object",
+        "description": "Information about the battery",
+        "properties": {
+          "batteryId": {
+            "type": "string",
+            "description": "Unique identifier for the battery"
+          },
+          "capacity": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Capacity of the battery in ampere-hour (Ah)"
+          },
+          "voltage": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Nominal voltage of the battery in volts (V)"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["Li-ion", "LFP", "NMC", "NCA", "LCO", "NICD", "NIMH", "Lead Acid"],
+            "description": "Type of the battery"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "Manufacturer of the battery"
+          },
+          "warrantyPeriod": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Warranty period of the battery in months"
+          }
+        },
+        "required": ["batteryId", "capacity", "voltage", "type", "manufacturer", "warrantyPeriod"]
+      },
+      "location": {
+        "type": "object",
+        "description": "Geographical location of the battery trace",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90,
+            "description": "Latitude of the location"
+          },
+          "longitude": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180,
+            "description": "Longitude of the location"
+          },
+          "address": {
+            "type": "string",
+            "description": "Address of the location"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of the location"
+          },
+          "state": {
+            "type": "string",
+            "description": "State of the location"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country of the location"
+          },
+          "postalCode": {
+            "type": "string",
+            "description": "Postal code of the location"
+          }
+        },
+        "required": ["latitude", "longitude", "address", "city", "state", "country", "postalCode"]
+      },
+      "dateTime": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Date and time of the battery trace in ISO 8601 format"
+      },
+      "dataPoints": {
+        "type": "object",
+        "description": "Data points of the battery trace",
+        "properties": {
+          "stateOfCharge": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "State of charge of the battery in percentage (%)"
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Temperature of the battery in degree Celsius (°C)"
+          },
+          "current": {
+            "type": "number",
+            "description": "Current flowing through the battery in amperes (A)"
+          },
+          "voltage": {
+            "type": "number",
+            "description": "Instantaneous voltage of the battery in volts (V)"
+          },
+          "power": {
+            "type": "number",
+            "description": "Instantaneous power consumption of the battery in watts (W)"
+          },
+          "cycleCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of charge-discharge cycles completed by the battery"
+          },
+          "remainingCapacity": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Remaining capacity of the battery in ampere-hours (Ah)"
+          },
+          "health": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Health of the battery in percentage (%)"
+          }
+        },
+        "required": ["stateOfCharge", "temperature", "current", "voltage", "power", "cycleCount", "remainingCapacity", "health"]
+      }
+    },
+    "required": ["batteryTraceId", "vehicle", "battery", "location", "dateTime", "dataPoints"]
+  }
